@@ -22,8 +22,14 @@ namespace TiendaVirtual.Services
 
         // ===================== PRODUCTOS =====================
 
+        /// <summary>
+        /// Obtiene todos los productos registrados.
+        /// </summary>
         public List<Producto> ObtenerProductos() => _productos.ToList();
 
+        /// <summary>
+        /// Obtiene productos filtrados por tipo.
+        /// </summary>
         public List<Producto> ObtenerProductosPorTipo(string tipo)
         {
             return tipo switch
@@ -35,19 +41,31 @@ namespace TiendaVirtual.Services
             };
         }
 
+        /// <summary>
+        /// Busca un producto por ID.
+        /// </summary>
         public Producto? ObtenerProductoPorId(int id) =>
             _productos.FirstOrDefault(p => p.Id == id);
 
+        /// <summary>
+        /// Verifica si un código de producto ya existe.
+        /// </summary>
         public bool CodigoProductoExiste(string codigo, int? excludeId = null) =>
             _productos.Any(p => p.Codigo.Equals(codigo.ToUpper(), StringComparison.OrdinalIgnoreCase)
                                 && p.Id != excludeId);
 
+        /// <summary>
+        /// Agrega un nuevo producto (polimorfismo: acepta cualquier subtipo de Producto).
+        /// </summary>
         public void AgregarProducto(Producto producto)
         {
             producto.Id = _nextProductoId++;
             _productos.Add(producto);
         }
 
+        /// <summary>
+        /// Elimina un producto por ID.
+        /// </summary>
         public bool EliminarProducto(int id)
         {
             var p = ObtenerProductoPorId(id);
@@ -56,6 +74,9 @@ namespace TiendaVirtual.Services
             return true;
         }
 
+        /// <summary>
+        /// Obtiene estadísticas de productos por tipo.
+        /// </summary>
         public Dictionary<string, int> ObtenerEstadisticasPorTipo()
         {
             return new Dictionary<string, int>
@@ -149,18 +170,11 @@ namespace TiendaVirtual.Services
 
         // ===================== DATOS SEMILLA =====================
 
+        /// <summary>
+        /// Carga 60 datos de ejemplo (20 por categoría) al iniciar el sistema.
+        /// </summary>
         private void SeedData()
         {
-            // --- CONSUMIDOR FINAL (Venta Rápida) ---
-            AgregarCliente(new Cliente 
-            { 
-                Nombre = "Consumidor", 
-                Apellido = "Final", 
-                Email = "cf@nexstore.local", 
-                Telefono = "N/A", 
-                Direccion = "Venta de mostrador" 
-            });
-
             // --- 20 PRODUCTOS TECNOLÓGICOS ---
             var techData = new[] {
                 ("Laptop ProBook 15", 899.99m, "💻", "TechPro", "Intel i7, 16GB RAM, 512GB SSD"),
@@ -285,7 +299,7 @@ namespace TiendaVirtual.Services
                 });
             }
 
-            // --- CLIENTES REGULARES ---
+            // Clientes de ejemplo
             AgregarCliente(new Cliente { Nombre = "María", Apellido = "González", Email = "maria@email.com", Telefono = "555-0101", Direccion = "Calle 1, Ciudad" });
             AgregarCliente(new Cliente { Nombre = "Carlos", Apellido = "Rodríguez", Email = "carlos@email.com", Telefono = "555-0202", Direccion = "Av. Central 45" });
             AgregarCliente(new Cliente { Nombre = "Laura", Apellido = "Martínez", Email = "laura@email.com", Telefono = "555-0303", Direccion = "Residencial Las Flores" });

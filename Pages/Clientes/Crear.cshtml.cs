@@ -16,10 +16,6 @@ namespace TiendaVirtual.Pages.Clientes
 
         public IActionResult OnPost()
         {
-            // SOLUCIÓN AL ERROR: Le decimos a ASP.NET que ignore el campo Codigo 
-            // durante la validación del formulario, ya que lo generaremos en el backend.
-            ModelState.Remove("Cliente.Codigo");
-
             if (!ModelState.IsValid) return Page();
 
             if (_tiendaService.EmailExiste(Cliente.Email))

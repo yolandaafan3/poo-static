@@ -73,21 +73,12 @@
                     </div>
 
                     <div class="checkout-form">
-                        <h4>Datos de Facturación</h4>
+                        <h4>Seleccionar cliente</h4>
                         <form method="post" asp-page-handler="Confirmar">
                             <div class="form-group">
                                 <select name="clienteId" class="form-control" required>
-                                    @{
-                                        // Extraemos al Consumidor Final usando el correo único que le dimos en SeedData
-                                        var consumidorFinal = Model.Clientes.FirstOrDefault(c => c.Email == "cf@nexstore.local");
-                                        if (consumidorFinal != null)
-                                        {
-                                            <option value="@consumidorFinal.Id" selected>👤 Consumidor Final (Venta Rápida)</option>
-                                        }
-                                    }
-                                    <option disabled>----------------------</option>
-                                    <option value="">O selecciona un cliente registrado...</option>
-                                    @foreach (var c in Model.Clientes.Where(c => c.Email != "cf@nexstore.local"))
+                                    <option value="">-- Selecciona un cliente --</option>
+                                    @foreach (var c in Model.Clientes)
                                     {
                                         <option value="@c.Id">@c.NombreCompleto (@c.Codigo)</option>
                                     }
